@@ -241,7 +241,7 @@ export default function Login() {
         </div>
 
         <p className="relative z-10 text-xs text-white/40">
-          © 2026 David Corella S. All rights reserved.
+          © 2026 DaeByte. All rights reserved.
         </p>
       </div>
 
