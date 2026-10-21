@@ -1,27 +1,41 @@
+name: ecoway
+
+x-conn: &conn
+  ConnectionStrings__DefaultConnection: Server=db;Database=app;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True
+
 services:
   web:
-    build: ./web
+    image: ghcr.io/davidcorella/ecoway-web:${IMAGE_TAG:-prod}
     restart: unless-stopped
     networks: [interna]
+
   api:
-    build: ./api
+    image: ghcr.io/davidcorella/ecoway-api:${IMAGE_TAG:-prod}
     restart: unless-stopped
     environment:
-      - ConnectionStrings__DefaultConnection=Server=db;Database=app;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True
-      - Bccr__Token=${BCCR_TOKEN}
+      <<: *conn
+      Bccr__Token: ${BCCR_TOKEN}
     volumes:
       - dpkeys:/root/.aspnet/DataProtection-Keys
       - uploads:/app/App_Data/uploads
     depends_on: [db]
     networks: [interna]
 
+  migrator:
+    image: ghcr.io/davidcorella/ecoway-migrator:${IMAGE_TAG:-prod}
+    environment:
+      <<: *conn
+    depends_on: [db]
+    networks: [interna]
+    profiles: ["tools"]
+
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
     environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
-      - MSSQL_PID=Express
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+      MSSQL_PID: Express
     volumes:
       - db-data:/var/opt/mssql
       - /mnt/backup/sql:/backup
@@ -31,20 +45,28 @@ services:
     image: caddy:2-alpine
     restart: unless-stopped
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ./certs:/etc/caddy/certs:ro
+      - ./caddy:/etc/caddy:ro
     networks: [interna]
 
   cloudflared:
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
-    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    depends_on: [caddy]
     networks: [interna]
 
 volumes:
   db-data:
+    external: true
+    name: miapp_db-data
   dpkeys:
+    external: true
+    name: miapp_dpkeys
   uploads:
+    external: true
+    name: miapp_uploads
 
 networks:
   interna:

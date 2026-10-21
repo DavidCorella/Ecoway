@@ -1,0 +1,52 @@
+name: Deploy prod
+on:
+  push:
+    branches: [prod]
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - { name: web, context: ./web }
+          - { name: api, context: ./api }
+          - { name: migrator, context: ./db }
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          push: true
+          tags: |
+            ghcr.io/${{ env.OWNER }}/ecoway-${{ matrix.name }}:prod
+            ghcr.io/${{ env.OWNER }}/ecoway-${{ matrix.name }}:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: [self-hosted, ecoway]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: deploy
+      - run: |
+          D=/opt/sites/ecoway
+          mkdir -p $D/caddy
+          cp deploy/docker-compose.yml $D/docker-compose.yml
+          cp deploy/Caddyfile $D/caddy/Caddyfile
+          install -m 700 deploy/deploy.sh $D/deploy.sh
+          $D/deploy.sh ${{ github.sha }}
