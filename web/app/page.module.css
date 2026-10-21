@@ -1,0 +1,436 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 200vh;
+  overflow-y: auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ===================== HEADER ===================== */
+.navBar {
+  width: 100%;
+  height: 15vh;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  background-color: #FFF7F5;
+}
+
+.logoEcoway {
+  margin-left: 2vw;
+  margin-top: 2vh;
+}
+
+.navBarOptions {
+  width: 25%;
+  height: 100%;
+  margin-right: 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  color: black;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown h3 {
+  cursor: pointer;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  min-width: 100%;
+  padding: 8%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  list-style: none;
+  font-size: 1rem;
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.dropdownMenu li {
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dropdownMenu li:hover {
+  background: #f3f4f6;
+  transform: translateX(4px);
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.arrow {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 0.25s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.loginBtn,
+.serviceBtn {
+  background-color: #5a8f57;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+  transition: all 0.25s ease;
+}
+
+/* tamaños individuales */
+.loginBtn {
+  width: 25%;
+  height: 25%;
+}
+
+.serviceBtn {
+  width: 12%;
+  height: 7%;
+  margin-left: 2%;
+  margin-top: 2%;
+}
+
+.loginBtn:hover,
+.serviceBtn:hover {
+  background-color: #4e7d4b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.loginBtn:active,
+.serviceBtn:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.heroContainer {
+  width: 100%;
+  height: 85vh;
+  margin-top: 20vh;
+  background-image: url('/Images/background.png');
+  background-size: 100% 100%;
+  background-position: top;
+  background-repeat: no-repeat;
+}
+
+.heroText {
+  margin-left: 2%;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: #324237;
+}
+
+.heroSecondText {
+  margin-left: 2%;
+  margin-top: 1%;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: #4E534C;
+}
+
+.Container {
+  width: 100%;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.stepContainer {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+
+  background-image: url('/Images/stepsBackground.webp');
+}
+
+.stepCard {
+  width: 13%;
+  height: 80%;
+
+  background-color: #c5dd98;
+  flex-direction: column;
+}
+
+.stepCardTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stepCardTitle h3 {
+  margin-left: 5%;
+  font-size: 1rem;
+}
+
+.stepCard p {
+  font-size: 0.8rem;
+  padding: 1%;
+}
+
+.impactContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 2%;
+  background-image: url('/Images/impactBackground.webp');
+}
+
+.impactoContent {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.impactCard {
+  width: 30%;
+  height: 50%;
+
+  background-color: #e7e7e7;
+  flex-direction: row;
+}
+
+.impactMainText {
+  margin-bottom: 2%;
+
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #324237;
+}
+
+.impactText {
+  width: 58%;
+  height: 100%;
+  padding: 2%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.impactText h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #324237;
+}
+
+.impactText p {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #4E534C;
+}
+
+.Card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 30px;
+  color: #324237;
+  text-align: center;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #5a8f57;
+  color: white;
+
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.Images {
+  border-radius: 20px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+
+  background-image: url('/Images/footerBackground.webp');
+}
+
+.logoContainer {
+  margin-top: 10%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoContainer p {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #4E534C;
+}
+
+.contacts {
+  margin-top: 10%;
+  margin-right: 1%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+
+  .navBarOptions {
+    width: 40%;
+  }
+
+  .heroText {
+    font-size: 2rem;
+  }
+
+  .heroSecondText {
+    font-size: 1.1rem;
+  }
+
+  .serviceBtn {
+    width: 20%;
+    height: 8%;
+  }
+
+  .stepCard {
+    width: 20%;
+  }
+
+  .impactCard {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* NAVBAR */
+  .navBar {
+    height: 12vh;
+    padding: 0 10px;
+  }
+
+  .navBarOptions {
+    width: auto;
+    gap: 10px;
+    font-size: 0.9rem;
+  }
+
+  .loginBtn {
+    width: auto;
+    padding: 6px 12px;
+  }
+
+  /* HERO */
+  .heroContainer {
+    height: auto;
+    padding: 20px;
+    margin-top: 12vh;
+  }
+
+  .heroText {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .heroSecondText {
+    font-size: 1rem;
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .serviceBtn {
+    width: auto;
+    padding: 10px 16px;
+    display: block;
+    margin: 20px auto;
+  }
+
+  /* STEPS */
+  .stepContainer {
+    flex-direction: column;
+    height: auto;
+    gap: 15px;
+    padding: 20px 0;
+  }
+
+  .stepCard {
+    width: 80%;
+    height: auto;
+  }
+
+  /* IMPACT */
+  .impactContainer {
+    height: auto;
+  }
+
+  .impactoContent {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .impactCard {
+    width: 80%;
+    height: auto;
+    flex-direction: column;
+  }
+
+  /* FOOTER */
+  .footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 20px 0;
+  }
+
+  .contacts {
+    margin-top: 0;
+  }
+
+  .logoContainer {
+    margin-top: 0;
+  }
+}

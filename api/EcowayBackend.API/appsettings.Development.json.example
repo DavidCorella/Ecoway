@@ -1,0 +1,14 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=David-PC;Database=Ecoway;Trusted_Connection=True;TrustServerCertificate=True;"
+  },
+  "Bccr": {
+    "Token": ""
+  }
+}

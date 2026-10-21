@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	  <UserSecretsId>77f6b2f9-222b-483d-8a23-90c31ffb01b8</UserSecretsId>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.8.23" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.8.23" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.15" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.15" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.15" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\EcowayBackend.BC\EcowayBackend.BC.csproj" />
+		<ProjectReference Include="..\EcowayBackend.BW\EcowayBackend.BW.csproj" />
+		<ProjectReference Include="..\EcowayBackend.DA\EcowayBackend.DA.csproj" />
+	</ItemGroup>
+
+	
+</Project>

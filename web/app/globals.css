@@ -1,0 +1,237 @@
+@import "tailwindcss";
+
+:root {
+  /* ---------- superficie base ---------- */
+  --background: #F5F7F4;
+  --foreground: #12261C;
+
+  /* ---------- marca: verde bosque + acento tecnológico ---------- */
+  --brand-950: #081A12;
+  --brand-900: #0E2B20;
+  --brand-800: #123626;
+  --brand-700: #175E3E;
+  --brand-600: #1B7A4D;
+  --brand-500: #22935E;
+  --brand-100: #DCEFE2;
+  --brand-50:  #EEF6F0;
+
+  --accent: #1FD1A8;
+  --accent-strong: #0FB894;
+  --accent-soft: #E3FBF3;
+
+  /* ---------- acento propio de Materiales: cálido, distinto del verde ---------- */
+  --materials: #F2994A;
+  --materials-strong: #D9782B;
+  --materials-soft: #FDECD9;
+
+  /* ---------- acento propio de Logs: azul acero, tono "seguridad" ---------- */
+  --logs: #3B7DD8;
+  --logs-strong: #2A63B8;
+  --logs-soft: #E5EEFB;
+
+  /* ---------- acento propio de Actas de Entrada: verde fuerte, "entra" material ---------- */
+  --entrada: #16A34A;
+  --entrada-strong: #0F7A38;
+  --entrada-soft: #DCF5E4;
+
+  /* ---------- acento propio de Actas de Salida: rojo, contrasta con Entrada ---------- */
+  --salida: #DC2626;
+  --salida-strong: #A61B1B;
+  --salida-soft: #FBE2E2;
+
+  /* ---------- acento propio de Cotizaciones: dorado, tono "comercial/elegante" ---------- */
+  --quotes: #A6832E;
+  --quotes-strong: #8A6A22;
+  --quotes-soft: #F6EED9;
+
+  /* ---------- acento propio de Certificados: vino, tono "sello oficial" (como el rojo del certificado modelo) ---------- */
+  --certs: #8B3A4A;
+  --certs-strong: #6E2D3A;
+  --certs-soft: #F5E7EA;
+
+  /* ---------- acento propio de Resumen de Recolección: teal apagado, tono "reporte/analítica" ---------- */
+  --summary: #2C7A7B;
+  --summary-strong: #206060;
+  --summary-soft: #E1F3F2;
+
+  /* ---------- neutros con sesgo verde, no gris puro ---------- */
+  --surface: #FFFFFF;
+  --surface-2: #EEF2ED;
+  --border: #DCE4DA;
+  --text: #12261C;
+  --text-dim: #5E6F64;
+
+  /* ---------- semántico ---------- */
+  --warn: #B4761E;
+  --warn-soft: #FBF1DF;
+  --danger: #C43D3D;
+  --danger-soft: #FCEAEA;
+  /* Para acciones "positivas" tipo exportar a Excel — distinto del verde
+     de Actas de Entrada, que ya tiene su propio significado */
+  --success: #1B7A4D;
+  --success-soft: #E3F5EA;
+
+  --shadow-color: 152 40% 12%;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-brand-950: var(--brand-950);
+  --color-brand-900: var(--brand-900);
+  --color-brand-800: var(--brand-800);
+  --color-brand-700: var(--brand-700);
+  --color-brand-600: var(--brand-600);
+  --color-brand-500: var(--brand-500);
+  --color-brand-100: var(--brand-100);
+  --color-brand-50: var(--brand-50);
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+
+  --color-materials: var(--materials);
+  --color-materials-strong: var(--materials-strong);
+  --color-materials-soft: var(--materials-soft);
+
+  --color-logs: var(--logs);
+  --color-logs-strong: var(--logs-strong);
+  --color-logs-soft: var(--logs-soft);
+
+  --color-entrada: var(--entrada);
+  --color-entrada-strong: var(--entrada-strong);
+  --color-entrada-soft: var(--entrada-soft);
+
+  --color-salida: var(--salida);
+  --color-salida-strong: var(--salida-strong);
+  --color-salida-soft: var(--salida-soft);
+
+  --color-quotes: var(--quotes);
+  --color-quotes-strong: var(--quotes-strong);
+  --color-quotes-soft: var(--quotes-soft);
+
+  --color-certs: var(--certs);
+  --color-certs-strong: var(--certs-strong);
+  --color-certs-soft: var(--certs-soft);
+
+  --color-summary: var(--summary);
+  --color-summary-strong: var(--summary-strong);
+  --color-summary-soft: var(--summary-soft);
+
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-edge: var(--border);
+  --color-ink: var(--text);
+  --color-ink-dim: var(--text-dim);
+
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Números, IDs y etiquetas técnicas usan la mono ya cargada: le da a la
+   interfaz una textura de "dato/técnico" sin pedir una fuente nueva. */
+.font-data {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Titulares del sitio público (landing): Sora, cargada solo ahí — le da
+   carácter a los títulos grandes sin tocar la tipografía del sistema
+   interno (que sigue usando Geist Sans en todos lados). */
+.font-display {
+  font-family: var(--font-sora), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Misma idea que .eyebrow (etiqueta chica sobre un título), pero en Sora
+   para el sitio público — el sistema interno sigue usando .eyebrow tal
+   cual, en mono, sin tocar. */
+.eyebrow-display {
+  font-family: var(--font-sora), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ---------- foco accesible consistente en toda la app ---------- */
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- scrollbar discreta, a tono con la marca ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--brand-700) 35%, transparent);
+  border-radius: 999px;
+  border: 2px solid var(--background);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--brand-700) 55%, transparent);
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--brand-900);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- animaciones del sitio público (landing) ---------- */
+@keyframes ew-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes ew-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-ew-float {
+  animation: ew-float 6s ease-in-out infinite;
+}
+.animate-ew-fade-up {
+  animation: ew-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

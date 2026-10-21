@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+bin/
+obj/
+*.tsbuildinfo
+.env
+.env.local
+appsettings.Development.json
+*.bak
+*.mdf
+*.ldf

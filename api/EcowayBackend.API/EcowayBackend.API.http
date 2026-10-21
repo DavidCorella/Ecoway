@@ -1,0 +1,6 @@
+@EcowayBackend.API_HostAddress = http://localhost:5298
+
+GET {{EcowayBackend.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

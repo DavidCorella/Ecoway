@@ -1,0 +1,6 @@
+**/bin
+**/obj
+**/.vs
+**/App_Data
+Dockerfile
+.dockerignore

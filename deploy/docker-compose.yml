@@ -1,0 +1,50 @@
+services:
+  web:
+    build: ./web
+    restart: unless-stopped
+    networks: [interna]
+  api:
+    build: ./api
+    restart: unless-stopped
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=app;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True
+      - Bccr__Token=${BCCR_TOKEN}
+    volumes:
+      - dpkeys:/root/.aspnet/DataProtection-Keys
+      - uploads:/app/App_Data/uploads
+    depends_on: [db]
+    networks: [interna]
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+      - MSSQL_PID=Express
+    volumes:
+      - db-data:/var/opt/mssql
+      - /mnt/backup/sql:/backup
+    networks: [interna]
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs:/etc/caddy/certs:ro
+    networks: [interna]
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${TUNNEL_TOKEN}
+    networks: [interna]
+
+volumes:
+  db-data:
+  dpkeys:
+  uploads:
+
+networks:
+  interna:

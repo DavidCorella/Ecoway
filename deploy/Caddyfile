@@ -1,0 +1,11 @@
+http://www.ecowaycr.com, http://ecowaycr.com {
+    encode zstd gzip
+
+    handle /api/* {
+        reverse_proxy api:5000
+    }
+
+    handle {
+        reverse_proxy web:3000
+    }
+}
