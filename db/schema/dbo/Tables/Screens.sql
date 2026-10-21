@@ -1,0 +1,10 @@
+CREATE TABLE [dbo].[Screens] (
+    [id]   UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
+    [name] VARCHAR (100)    NOT NULL,
+    PRIMARY KEY CLUSTERED ([id] ASC),
+    UNIQUE NONCLUSTERED ([name] ASC)
+);
+
+
+GO
+
