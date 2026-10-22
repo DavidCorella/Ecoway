@@ -12,8 +12,17 @@
   --brand-700: #175E3E;
   --brand-600: #1B7A4D;
   --brand-500: #22935E;
+  --brand-300: #8CC5A0;
+  --brand-200: #B9DCC4;
   --brand-100: #DCEFE2;
   --brand-50:  #EEF6F0;
+
+  /* ---------- tonos naturales del sitio público: hoja tierna y arena ---------- */
+  --leaf: #A3D96B;
+  --leaf-strong: #6FAE3A;
+  --leaf-soft: #EEF7E1;
+  --sand: #F6F2E7;
+  --sand-2: #ECE5D2;
 
   --accent: #1FD1A8;
   --accent-strong: #0FB894;
@@ -86,8 +95,16 @@
   --color-brand-700: var(--brand-700);
   --color-brand-600: var(--brand-600);
   --color-brand-500: var(--brand-500);
+  --color-brand-300: var(--brand-300);
+  --color-brand-200: var(--brand-200);
   --color-brand-100: var(--brand-100);
   --color-brand-50: var(--brand-50);
+
+  --color-leaf: var(--leaf);
+  --color-leaf-strong: var(--leaf-strong);
+  --color-leaf-soft: var(--leaf-soft);
+  --color-sand: var(--sand);
+  --color-sand-2: var(--sand-2);
 
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);

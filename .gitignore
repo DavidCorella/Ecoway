@@ -12,3 +12,6 @@ appsettings.Development.json
 *.ldf
 # Archivos subidos por usuarios (datos de producción)
 api/EcowayBackend.API/App_Data/uploads/
+
+# Contexto local para Claude Code
+/CLAUDE.md
