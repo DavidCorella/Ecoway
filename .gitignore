@@ -10,3 +10,5 @@ appsettings.Development.json
 *.bak
 *.mdf
 *.ldf
+# Archivos subidos por usuarios (datos de producción)
+api/EcowayBackend.API/App_Data/uploads/
