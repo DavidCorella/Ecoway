@@ -273,15 +273,15 @@ export default function Login() {
           {/* Campos */}
           <div className="space-y-4 mb-6">
 
-            {/* Cedula */}
+            {/* Usuario */}
             <div>
               <label htmlFor="login-id" className="sr-only">
-                Cédula
+                Usuario
               </label>
               <input
                 id="login-id"
                 type="text"
-                placeholder="Cédula"
+                placeholder="Usuario"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
@@ -351,7 +351,7 @@ export default function Login() {
 
             {!recoveryFeedback && (
               <p className="text-sm text-ink-dim mb-5">
-                Escribí tu cédula y le avisamos al equipo administrador para que revise tu solicitud.
+                Escribí tu usuario y le avisamos al equipo administrador para que revise tu solicitud.
               </p>
             )}
 
@@ -362,12 +362,12 @@ export default function Login() {
             ) : (
               <>
                 <label htmlFor="recovery-id" className="sr-only">
-                  Cédula
+                  Usuario
                 </label>
                 <input
                   id="recovery-id"
                   type="text"
-                  placeholder="Cédula"
+                  placeholder="Usuario"
                   value={recoveryId}
                   onChange={(e) => setRecoveryId(e.target.value)}
                   className="w-full border border-edge rounded-xl px-4 py-3 mb-4 text-ink bg-surface-2 placeholder-ink-dim/60 focus:outline-none focus:ring-2 focus:ring-accent-strong transition"
