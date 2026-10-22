@@ -490,7 +490,7 @@ export default function Home() {
 
           <div className="flex flex-col-reverse items-center gap-3 pt-6 sm:flex-row sm:justify-between">
             <p className="text-xs text-white/50">
-              © 2026 David Corella S. All rights reserved.
+              © 2026 DaeByte. All rights reserved.
             </p>
             <button
               onClick={() => router.push("/Login")}
