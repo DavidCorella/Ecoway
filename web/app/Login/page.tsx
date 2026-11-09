@@ -240,9 +240,10 @@ export default function Login() {
           </div>
         </div>
 
-        <p className="relative z-10 text-xs text-white/40">
-          © 2026 DaeByte. All rights reserved.
-        </p>
+        <div className="relative z-10 space-y-1 text-xs text-white/40">
+          <p>© 2026 EcoWay Costa Rica. Todos los derechos reservados.</p>
+          <p>Hecho por <span className="font-semibold text-white/60">DaeByte</span></p>
+        </div>
       </div>
 
       <div className="flex items-center justify-center p-6 md:p-12 bg-background">

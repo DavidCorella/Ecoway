@@ -490,7 +490,10 @@ export default function Home() {
 
           <div className="flex flex-col-reverse items-center gap-3 pt-6 sm:flex-row sm:justify-between">
             <p className="text-xs text-white/50">
-              © 2026 DaeByte. All rights reserved.
+              © 2026 EcoWay Costa Rica. Todos los derechos reservados.
+            </p>
+            <p className="text-xs text-white/45">
+              Hecho por <span className="font-semibold text-white/70">DaeByte</span>
             </p>
             <button
               onClick={() => router.push("/Login")}

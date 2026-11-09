@@ -58,8 +58,9 @@ export default function NotFound() {
         </div>
       </section>
 
-      <footer className="py-6 text-center text-xs text-ink-dim/70">
-        © 2026 DaeByte. All rights reserved.
+      <footer className="space-y-1 py-6 text-center text-xs text-ink-dim/70">
+        <p>© 2026 EcoWay Costa Rica. Todos los derechos reservados.</p>
+        <p>Hecho por <span className="font-semibold text-ink-dim">DaeByte</span></p>
       </footer>
     </main>
   );
