@@ -15,8 +15,13 @@ export function middleware(request: NextRequest) {
 
   const isPublic = pathname === "/" || pathname.startsWith("/Login");
 
+  // Solo el sistema interno es privado. Asi una ruta que no existe llega
+  // a la pagina 404 en vez de mandar a la landing. Si se agrega otra
+  // ruta privada, hay que sumarla aca
+  const isPrivate = pathname.startsWith("/MainSystemPage");
+
   // sin token y ruta privada, va a la landing
-  if (!token && !isPublic) {
+  if (!token && isPrivate) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
