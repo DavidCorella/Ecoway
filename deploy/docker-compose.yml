@@ -50,7 +50,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-      start_period: 90s
+      # Margen amplio: al cambiar de versión, SQL Server pasa minutos en "script upgrade mode".
+      start_period: 600s
       start_interval: 5s
     networks: [interna]
 
