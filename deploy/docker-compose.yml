@@ -34,7 +34,9 @@ services:
     profiles: ["tools"]
 
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    # Versión fija: con 2022-latest un deploy podía actualizar SQL Server sin aviso.
+    # Para actualizar, cambiá la CU acá (y hacé el deploy en horario tranquilo).
+    image: mcr.microsoft.com/mssql/server:2022-CU28-ubuntu-22.04
     restart: unless-stopped
     environment:
       ACCEPT_EULA: "Y"
