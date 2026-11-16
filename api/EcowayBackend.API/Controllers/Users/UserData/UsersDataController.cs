@@ -8,7 +8,7 @@ using EcowayBackend.BW.Interfaces.BW.Users.PersonalData;
 using EcowayBackend.BW.Interfaces.BW.Users.UsersData;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using System.Security.Claims;
 
 
@@ -121,7 +121,7 @@ namespace EcowayBackend.API.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException is SqlException sql && (sql.Number == 2627 || sql.Number == 2601))
+                if (ex.InnerException is PostgresException sql && sql.SqlState == PostgresErrorCodes.UniqueViolation)
                 {
                     return Conflict(new { message = $"Ya existe un usuario registrado con la identificación {user.id}. Buscalo en la lista en vez de crear uno nuevo." });
                 }

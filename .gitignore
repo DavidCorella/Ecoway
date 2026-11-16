@@ -15,3 +15,6 @@ api/EcowayBackend.API/App_Data/uploads/
 
 # Contexto local para Claude Code
 /CLAUDE.md
+
+# Copias locales de datos de produccion para pruebas (respaldos, exportes)
+/local/

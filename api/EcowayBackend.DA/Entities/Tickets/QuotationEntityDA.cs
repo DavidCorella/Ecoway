@@ -19,6 +19,7 @@ namespace EcowayBackend.DA.Entities.Tickets
         public string quotation_number { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime quotation_date { get; set; }
 
         [Required]

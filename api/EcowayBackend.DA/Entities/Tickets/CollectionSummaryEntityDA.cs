@@ -25,9 +25,11 @@ namespace EcowayBackend.DA.Entities.Tickets
         public CompanyEntityDA? Company { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime date_from { get; set; }
 
         [Required]
+        [Column(TypeName = "date")]
         public DateTime date_to { get; set; }
 
         // Ejemplo "Junio 24 a Julio 27 de 2026", se arma solo con el rango

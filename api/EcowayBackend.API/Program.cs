@@ -53,6 +53,7 @@ using EcowayBackend.API.Hubs;
 using EcowayBackend.API.Security;
 using EcowayBackend.BC.Realtime;
 using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
@@ -169,29 +170,30 @@ builder.Services.AddTransient<CollectionSummaryInterfaceClassBW, CollectionSumma
 builder.Services.AddTransient<CollectionSummaryInterfaceClassDA, CollectionSummaryClassDA>();
 // Un contexto de EF por dominio (Users, Materials, Logs, Tickets)
 builder.Services.AddDbContext<UsersContext>(options => {
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sql => sql.EnableRetryOnFailure());
     if (builder.Environment.IsDevelopment())
         options.EnableSensitiveDataLogging();
 });
 builder.Services.AddDbContext<MaterialsContext>(options =>
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sql => sql.EnableRetryOnFailure()));
 builder.Services.AddDbContext<LogsContext>(options =>
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sql => sql.EnableRetryOnFailure()));
 builder.Services.AddDbContext<TicketsContext>(options =>
-    options.UseSqlServer(
+    options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         sql => sql.EnableRetryOnFailure()));
 builder.Services.AddAuthorization();
 builder.Services.AddHangfire(config =>
 {
-    config.UseSqlServerStorage(
-        builder.Configuration.GetConnectionString("DefaultConnection"));
+    // Hangfire crea sus propias tablas en el esquema "hangfire", aparte de las del sistema
+    config.UsePostgreSqlStorage(c =>
+        c.UseNpgsqlConnection(builder.Configuration.GetConnectionString("DefaultConnection")));
 });
 
 builder.Services.AddHangfireServer();
