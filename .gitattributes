@@ -1,3 +1,5 @@
 *.sh text eol=lf
 *.sql text eol=lf
 Caddyfile text eol=lf
+# Archivos de cron/systemd sin extensión que se copian tal cual al servidor (Linux)
+db/respaldos/cron.d-* text eol=lf
