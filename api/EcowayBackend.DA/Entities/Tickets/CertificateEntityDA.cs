@@ -49,17 +49,14 @@ namespace EcowayBackend.DA.Entities.Tickets
         // fechas que se uso para elegir las actas incluidas, no una fecha
         // suelta. Sale como "Desde ... Hasta ..." en el encabezado
         [Required]
-        [Column(TypeName = "date")]
         public DateTime certificate_date_from { get; set; }
 
         [Required]
-        [Column(TypeName = "date")]
         public DateTime certificate_date_to { get; set; }
 
         // Fecha en la que se emitio el certificado. Se sugiere la fecha de
         // hoy al crearlo, pero se puede editar (ej. si se emite despues)
         [Required]
-        [Column(TypeName = "date")]
         public DateTime issued_date { get; set; }
 
         [Required]

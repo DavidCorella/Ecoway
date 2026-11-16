@@ -25,7 +25,6 @@ namespace EcowayBackend.DA.Entities.Tickets
         public CompanyEntityDA? Company { get; set; }
 
         [Required]
-        [Column(TypeName = "date")]
         public DateTime ticket_date { get; set; }
 
         [Required]

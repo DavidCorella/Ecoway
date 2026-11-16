@@ -5,7 +5,7 @@ using EcowayBackend.BW.Interfaces.BW.Logs;
 using EcowayBackend.BW.Interfaces.BW.Tickets;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Npgsql;
+using Microsoft.Data.SqlClient;
 
 namespace EcowayBackend.API.Controllers.Tickets
 {
@@ -87,8 +87,8 @@ namespace EcowayBackend.API.Controllers.Tickets
                 // dos empresas distintas comparten cedula por algun motivo
                 // administrativo). El unico duplicado que no se permite es
                 // el mismo nombre comercial + proyecto
-                if (ex.InnerException is PostgresException sql && sql.SqlState == PostgresErrorCodes.UniqueViolation &&
-                    sql.ConstraintName == "UQ_Company_NombreProyecto")
+                if (ex.InnerException is SqlException sql && (sql.Number == 2627 || sql.Number == 2601) &&
+                    sql.Message.Contains("UQ_Company_NombreProyecto"))
                 {
                     return Conflict(new { message = "Ya existe una empresa con ese nombre comercial y proyecto." });
                 }
@@ -121,8 +121,8 @@ namespace EcowayBackend.API.Controllers.Tickets
                 // dos empresas distintas comparten cedula por algun motivo
                 // administrativo). El unico duplicado que no se permite es
                 // el mismo nombre comercial + proyecto
-                if (ex.InnerException is PostgresException sql && sql.SqlState == PostgresErrorCodes.UniqueViolation &&
-                    sql.ConstraintName == "UQ_Company_NombreProyecto")
+                if (ex.InnerException is SqlException sql && (sql.Number == 2627 || sql.Number == 2601) &&
+                    sql.Message.Contains("UQ_Company_NombreProyecto"))
                 {
                     return Conflict(new { message = "Ya existe una empresa con ese nombre comercial y proyecto." });
                 }
