@@ -3,9 +3,13 @@
 var cs = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
          ?? throw new Exception("Falta ConnectionStrings__DefaultConnection");
 
+// En el contenedor las migraciones van en /migrations (ver Dockerfile);
+// MIGRATIONS_PATH permite correrlo local apuntando a db/migrations
+var migrationsPath = Environment.GetEnvironmentVariable("MIGRATIONS_PATH") ?? "/migrations";
+
 var upgrader = DeployChanges.To
-    .SqlDatabase(cs)
-    .WithScriptsFromFileSystem("/migrations")
+    .PostgresqlDatabase(cs)
+    .WithScriptsFromFileSystem(migrationsPath)
     .WithTransactionPerScript()
     .LogToConsole()
     .Build();

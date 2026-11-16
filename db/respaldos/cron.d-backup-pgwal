@@ -1,0 +1,2 @@
+# /etc/cron.d/backup-pgwal — sube los WAL de PostgreSQL a Drive cada 2 minutos.
+*/2 * * * * root flock -n /run/backup-pgwal.lock /usr/local/bin/backup-pgwal.sh

@@ -69,16 +69,34 @@ services:
       # Contraseña del usuario de la app (ecoway): la usa deploy.sh para crearlo, no postgres.
       PG_APP_PASSWORD: ${PG_PASSWORD:?Falta PG_PASSWORD en .env}
     # Servidor de 7 GB compartido con SQL Server (mientras dure el paralelo) y otros stacks.
-    command: >-
-      postgres
-      -c shared_buffers=256MB
-      -c effective_cache_size=1GB
-      -c work_mem=8MB
-      -c maintenance_work_mem=128MB
-      -c max_connections=50
+    # Archivado de WAL (equivale al BACKUP LOG cada 2 min de SQL Server): cada segmento se
+    # copia comprimido a /wal (= /mnt/backup/pgwal). archive_timeout fuerza uno cada 2 min
+    # si hubo cambios, así se pierden como mucho ~2 min. Lo sube a Drive backup-pgwal.sh.
+    command:
+      - postgres
+      - -c
+      - shared_buffers=256MB
+      - -c
+      - effective_cache_size=1GB
+      - -c
+      - work_mem=8MB
+      - -c
+      - maintenance_work_mem=128MB
+      - -c
+      - max_connections=50
+      - -c
+      - wal_compression=on
+      - -c
+      - archive_mode=on
+      - -c
+      - archive_timeout=120
+      - -c
+      - archive_command=test ! -f /wal/%f.gz && gzip -1 < %p > /wal/%f.gz.tmp && mv /wal/%f.gz.tmp /wal/%f.gz
     volumes:
       - pg-data:/var/lib/postgresql
       - /mnt/backup/sql:/backup
+      # Crear una vez en el host: sudo install -d -o 999 -g 999 -m 700 /mnt/backup/pgwal
+      - /mnt/backup/pgwal:/wal
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
       interval: 10s
