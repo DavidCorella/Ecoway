@@ -18,14 +18,18 @@ services:
     volumes:
       - dpkeys:/root/.aspnet/DataProtection-Keys
       - uploads:/app/App_Data/uploads
-    depends_on: [db]
+    depends_on:
+      db:
+        condition: service_healthy
     networks: [interna]
 
   migrator:
     image: ghcr.io/davidcorella/ecoway-migrator:${IMAGE_TAG:-prod}
     environment:
       <<: *conn
-    depends_on: [db]
+    depends_on:
+      db:
+        condition: service_healthy
     networks: [interna]
     profiles: ["tools"]
 
@@ -39,6 +43,15 @@ services:
     volumes:
       - db-data:/var/opt/mssql
       - /mnt/backup/sql:/backup
+    # La contraseña va por SQLCMDPASSWORD ($$ = la expande el contenedor, no compose):
+    # no aparece en `docker inspect` ni en la lista de procesos.
+    healthcheck:
+      test: ["CMD-SHELL", "SQLCMDPASSWORD=\"$$MSSQL_SA_PASSWORD\" /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -C -b -l 5 -Q 'SELECT 1' -o /dev/null"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+      start_interval: 5s
     networks: [interna]
 
   caddy:
