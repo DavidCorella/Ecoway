@@ -57,6 +57,37 @@ services:
       start_interval: 5s
     networks: [interna]
 
+  # PostgreSQL 18 (migración desde SQL Server, fase 2).
+  # Por ahora corre EN PARALELO: la api sigue usando `db` hasta el corte.
+  pg:
+    image: postgres:18.7
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${PG_ADMIN_PASSWORD:?Falta PG_ADMIN_PASSWORD en .env}
+      # Contraseña del usuario de la app (ecoway): la usa deploy.sh para crearlo, no postgres.
+      PG_APP_PASSWORD: ${PG_PASSWORD:?Falta PG_PASSWORD en .env}
+    # Servidor de 7 GB compartido con SQL Server (mientras dure el paralelo) y otros stacks.
+    command: >-
+      postgres
+      -c shared_buffers=256MB
+      -c effective_cache_size=1GB
+      -c work_mem=8MB
+      -c maintenance_work_mem=128MB
+      -c max_connections=50
+    volumes:
+      - pg-data:/var/lib/postgresql
+      - /mnt/backup/sql:/backup
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+      start_interval: 2s
+    networks: [interna]
+
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
@@ -83,6 +114,10 @@ volumes:
   uploads:
     external: true
     name: miapp_uploads
+  # Externo: no se borra con `docker compose down -v`. Crearlo una vez: docker volume create ecoway_pg-data
+  pg-data:
+    external: true
+    name: ecoway_pg-data
 
 networks:
   interna:

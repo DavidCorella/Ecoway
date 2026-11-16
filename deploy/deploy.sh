@@ -28,4 +28,24 @@ docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile
 echo ">> Limpieza (backups de más de 7 días)"
 docker compose exec -T db find /backup -name 'predeploy_*.bak' -mtime +7 -delete
 docker image prune -f
+
+# PostgreSQL corre en paralelo hasta el corte: la app todavía NO depende de él.
+# Va al final para que un problema acá no frene el deploy de la app.
+echo ">> PostgreSQL (en paralelo; la app todavía usa SQL Server)"
+if docker compose up -d --wait --wait-timeout 300 pg; then
+  # Usuario de la app (idempotente). psql lee la contraseña de una variable del contenedor
+  # con \getenv: no aparece en la línea de comandos ni en el log del deploy.
+  docker compose exec -T pg psql -q -v ON_ERROR_STOP=1 -U postgres -d app <<'SQL'
+\getenv pw PG_APP_PASSWORD
+SELECT format('CREATE ROLE ecoway LOGIN PASSWORD %L', :'pw')
+ WHERE NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'ecoway') \gexec
+SELECT format('ALTER ROLE ecoway WITH LOGIN PASSWORD %L', :'pw') \gexec
+-- Dueño de la BD: así el migrador (que conecta como ecoway) puede crear el esquema en public.
+ALTER DATABASE app OWNER TO ecoway;
+SQL
+  echo ">> PostgreSQL listo (usuario ecoway)"
+else
+  echo "!! PostgreSQL no quedó listo; la app no depende de él todavía." >&2
+  docker compose ps pg >&2
+fi
 echo ">> Deploy $IMAGE_TAG listo"
