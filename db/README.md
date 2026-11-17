@@ -1,16 +1,10 @@
-\# Base de datos EcoWay
+# Base de datos EcoWay
 
+PostgreSQL 18 (servicio `pg` en `deploy/docker-compose.yml`), BD `app`, usuario de la app `ecoway`.
+Migrada desde SQL Server el 16-nov-2026.
 
-
-\- `schema/`: estructura de producción (tablas, índices, llaves), exportada con
-
-&#x20; sqlpackage el 21-oct-2026. Es referencia: no se ejecuta en los deploys.
-
-\- `migrations/`: cambios nuevos, numerados (`0001\_descripcion.sql`, `0002\_...`).
-
-&#x20; Se aplican automáticamente en el deploy, en orden, una sola vez.
-
-\- Las tablas de HangFire las crea la propia librería; no van aquí.
-
-\- Los datos \*\*nunca\*\* van a git. Los backups están en el servidor, en `/mnt/backup/sql`.
-
+- `migrations/`: cambios numerados (`0001_schema_inicial.sql`, `0002_...`).
+  El migrador (DbUp) los aplica en cada deploy, en orden y una sola vez.
+- `respaldos/`: scripts del servidor (respaldo diario 3:17, WAL a Drive, prueba de restauración).
+- Las tablas de HangFire las crea la propia librería; no van aquí.
+- Los datos **nunca** van a git. Los respaldos están en el servidor, en `/mnt/backup`.
