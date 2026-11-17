@@ -33,34 +33,6 @@ services:
     networks: [interna]
     profiles: ["tools"]
 
-  # SQL Server: YA NO lo usa la app (desde el corte a PostgreSQL). Queda definido, con su
-  # volumen intacto, por si hay que volver atrás. El perfil hace que los deploys no lo
-  # levanten. Para arrancarlo a mano: docker compose --profile sqlserver up -d db
-  # Borrarlo (y el volumen miapp_db-data) solo cuando el corte esté confirmado.
-  db:
-    profiles: ["sqlserver"]
-    # Versión fija: con 2022-latest un deploy podía actualizar SQL Server sin aviso.
-    image: mcr.microsoft.com/mssql/server:2022-CU28-ubuntu-22.04
-    restart: unless-stopped
-    environment:
-      ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
-      MSSQL_PID: Express
-    volumes:
-      - db-data:/var/opt/mssql
-      - /mnt/backup/sql:/backup
-    # La contraseña va por SQLCMDPASSWORD ($$ = la expande el contenedor, no compose):
-    # no aparece en `docker inspect` ni en la lista de procesos.
-    healthcheck:
-      test: ["CMD-SHELL", "SQLCMDPASSWORD=\"$$MSSQL_SA_PASSWORD\" /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -C -b -l 5 -Q 'SELECT 1' -o /dev/null"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-      # Margen amplio: al cambiar de versión, SQL Server pasa minutos en "script upgrade mode".
-      start_period: 600s
-      start_interval: 5s
-    networks: [interna]
-
   # PostgreSQL 18: base de datos de la app (BD `app`, usuario `ecoway`).
   pg:
     image: postgres:18.7
@@ -126,9 +98,6 @@ services:
     networks: [interna]
 
 volumes:
-  db-data:
-    external: true
-    name: miapp_db-data
   dpkeys:
     external: true
     name: miapp_dpkeys
