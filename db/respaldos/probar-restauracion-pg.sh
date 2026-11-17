@@ -40,12 +40,17 @@ chmod 700 "$TMP/datos"
 
 docker run -d --name "$NOMBRE" --network none \
   -v "$TMP/datos:/var/lib/postgresql/18/docker" -v "$WAL:/wal:ro" \
-  "$IMG" postgres -c shared_buffers=128MB -c max_connections=10 >/dev/null
+  "$IMG" postgres -c shared_buffers=128MB -c max_connections=50 >/dev/null
+# max_connections (y max_worker_processes, etc.) no pueden ser menores que en el
+# servidor original, o la recuperación aborta ("insufficient parameter settings").
 
 echo -n "   recuperando (aplica los WAL)"
 for i in $(seq 1 180); do
   if docker exec "$NOMBRE" psql -U postgres -d app -tAc 'SELECT NOT pg_is_in_recovery()' 2>/dev/null | grep -q t; then
     echo " listo"; break
+  fi
+  if [ "$(docker inspect -f '{{.State.Running}}' "$NOMBRE" 2>/dev/null)" != true ]; then
+    echo; echo "El contenedor de prueba se detuvo. Log:"; docker logs --tail 30 "$NOMBRE"; exit 1
   fi
   sleep 2; echo -n .
   [ "$i" = 180 ] && { echo; echo "No terminó de recuperar en 6 min. Log:"; docker logs --tail 30 "$NOMBRE"; exit 1; }

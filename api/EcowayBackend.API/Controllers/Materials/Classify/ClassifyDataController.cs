@@ -8,7 +8,7 @@ using EcowayBackend.BW.Interfaces.BW.Materials.Currency;
 using EcowayBackend.BW.Interfaces.BW.Materials.Unit;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using System.Security.Claims;
 
 
@@ -47,8 +47,8 @@ namespace EcowayBackend.API.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException is SqlException sql &&
-        (sql.Number == 2627 || sql.Number == 2601))
+                if (ex.InnerException is PostgresException sql &&
+        sql.SqlState == PostgresErrorCodes.UniqueViolation)
                 {
                     return Conflict(new
                     {
@@ -127,8 +127,8 @@ namespace EcowayBackend.API.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.InnerException is SqlException sql &&
-        (sql.Number == 547))
+                if (ex.InnerException is PostgresException sql &&
+        sql.SqlState == PostgresErrorCodes.ForeignKeyViolation)
                 {
                     return Conflict(new
                     {
